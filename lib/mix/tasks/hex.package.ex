@@ -101,6 +101,9 @@ defmodule Mix.Tasks.Hex.Package do
       ["diff", package, version] ->
         diff(repo(opts), package, parse_version!(version))
 
+      ["diff", package, version1, version2] ->
+        diff(repo(opts), package, {version1, version2})
+
       _ ->
         Mix.raise("""
           Invalid arguments, expected one of:
@@ -108,6 +111,7 @@ defmodule Mix.Tasks.Hex.Package do
           mix hex.package fetch PACKAGE VERSION [--unpack]
           mix hex.package diff PACKAGE VERSION
           mix hex.package diff PACKAGE VERSION1..VERSION2
+          mix hex.package diff PACKAGE VERSION1 VERSION2
         """)
     end
   end
@@ -117,7 +121,8 @@ defmodule Mix.Tasks.Hex.Package do
     [
       {"fetch PACKAGE VERSION [--unpack]", "Fetch the package"},
       {"diff PACKAGE VERSION", "Diff dependency against version"},
-      {"diff PACKAGE VERSION1..VERSION2", "Diff package versions"}
+      {"diff PACKAGE VERSION1..VERSION2", "Diff package versions"},
+      {"diff PACKAGE VERSION1 VERSION2", "Diff package versions"}
     ]
   end
 
